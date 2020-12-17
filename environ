@@ -67,6 +67,7 @@ ${PATH}"
 	LD_LIBRARY_PATH="${BASE}/Output_${ARCH}/${BUILD}:\
 ${INSTALLATION_PREFIX}/lib/fieldworks/lib:\
 ${COM}/build${ARCH}/lib:\
+/app/lib:\
 ${LD_LIBRARY_PATH}"
 fi
 # ensure we scan the default pkg-config directories (to pick up Geckofx for compiling)

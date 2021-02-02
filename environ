@@ -96,7 +96,7 @@ then
 	FW_ROOTCODE="${BASE}/../../share/fieldworks"
 	ICU_DATA="${HOME}/.config/fieldworks/Icu54"
 	PATH="${BASE}/icu-bin:${PATH}"
-	LD_LIBRARY_PATH="${BASE}:${BASE}/lib:${LD_LIBRARY_PATH}"
+	LD_LIBRARY_PATH="${BASE}:${BASE}/lib:${LD_LIBRARY_PATH}:/app/lib"
 	MONO_REGISTRY_PATH="${HOME}/.config/fieldworks/registry"
 	MONO_HELP_VIEWER=${BASE}/launch-xchm
 else

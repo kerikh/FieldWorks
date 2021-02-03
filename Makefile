@@ -123,9 +123,9 @@ install-tree: install-tree-fdo
 	install -d $(DESTDIR)$(INSTALLATION_PREFIX)/share/man/man1
 	install -d $(DESTDIR)/etc/profile.d
 	# Install libraries and their support files
-	install -m 644 DistFiles/*.{dll*,so} $(DESTDIR)$(INSTALLATION_PREFIX)/lib/fieldworks
+	install -m 644 DistFiles/*.{dll*,pdb,so} $(DESTDIR)$(INSTALLATION_PREFIX)/lib/fieldworks
 	install -m 644 DistFiles/Linux/*.so $(DESTDIR)$(INSTALLATION_PREFIX)/lib/fieldworks
-	install -m 644 $(OUT_DIR)/*.{dll*,so} $(DESTDIR)$(INSTALLATION_PREFIX)/lib/fieldworks
+	install -m 644 $(OUT_DIR)/*.{dll*,pdb,so} $(DESTDIR)$(INSTALLATION_PREFIX)/lib/fieldworks
 	# Install executables and scripts
 	install $(OUT_DIR)/*.exe $(DESTDIR)$(INSTALLATION_PREFIX)/lib/fieldworks
 	install DistFiles/*.exe $(DESTDIR)$(INSTALLATION_PREFIX)/lib/fieldworks

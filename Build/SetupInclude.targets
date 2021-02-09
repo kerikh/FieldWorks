@@ -216,12 +216,14 @@
 
 	<!-- Area of filesystem where FieldWorks and its dependencies are being installed. This
 	is /usr when installed from a .deb package, or /app when using flatpak. -->
+	<Message Text="DEBUG1 BEFORE installation_prefix is $(installation_prefix). INSTALLATION_PREFIX is $(INSTALLATION_PREFIX)." Importance="normal" />
 	<CreateProperty Condition="'$(OS)'!='Windows_NT'" Value="/usr">
 	  <Output TaskParameter="Value" PropertyName="installation_prefix"/>
 	</CreateProperty>
 	<CreateProperty Condition="'$(OS)'=='Windows_NT'" Value="">
 	  <Output TaskParameter="Value" PropertyName="installation_prefix"/>
 	</CreateProperty>
+	<Message Text="DEBUG1 AFTER installation_prefix is $(installation_prefix). INSTALLATION_PREFIX is $(INSTALLATION_PREFIX)." Importance="normal" />
 
 <!--<if test="${not property::exists('dir.nunitreport')}">-->
 <!--	<property name="dir.nunitreport" value="${nant::get-base-directory()}/extensions/common/neutral/FwTasks/NUnit.Report"/>-->

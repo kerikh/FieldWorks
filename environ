@@ -30,6 +30,15 @@ if [ -f "${DOTNET_TOOLS_PATHER}" ]; then
   . "${DOTNET_TOOLS_PATHER}"
 fi
 
+if [[ -d /app/lib/fieldworks ]]; then
+  # We are running in flatpak.
+  MONO_PREFIX=/app
+  MONO_SILPKGDIR=/app
+  INSTALLATION_PREFIX=/app
+  LD_LIBRARY_PATH="/app/lib:${LD_LIBRARY_PATH}"
+  PATH="/app/bin:${PATH}"
+fi
+
 BASE=$(pwd)
 INSTALLATION_PREFIX="${INSTALLATION_PREFIX:-/usr}"
 COM=$(dirname "${BASE}")/libcom/COM

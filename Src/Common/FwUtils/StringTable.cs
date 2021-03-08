@@ -44,6 +44,7 @@ namespace SIL.FieldWorks.Common.FwUtils
 					var installedBinary = false;
 					if (Platform.IsLinux)
 					{
+						MessageBox.Show($"DEBUG1 installedBinary={installedBinary}, parentOfLanguageExplorerFolder={parentOfLanguageExplorerFolder}");
 						// First check if we're running an installed version. If so, replace
 						// /usr/lib/fieldworks with /usr/share/fieldworks
 						if (parentOfLanguageExplorerFolder.EndsWith("lib/fieldworks"))
@@ -52,6 +53,7 @@ namespace SIL.FieldWorks.Common.FwUtils
 							parentOfLanguageExplorerFolder = Path.Combine(
 								Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
 								"fieldworks");
+							Console.WriteLine($"DEBUG2 string table Table.get parentOfLanguageExplorerFolder={parentOfLanguageExplorerFolder}");
 						}
 					}
 					if (!installedBinary)

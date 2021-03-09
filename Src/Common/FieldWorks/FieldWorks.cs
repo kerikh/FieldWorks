@@ -211,6 +211,9 @@ namespace SIL.FieldWorks
 
 				FwUtils.InitializeIcu();
 
+				Console.WriteLine($"DEBUG4 thread sleep 5000 for debugger attach");
+				System.Threading.Thread.Sleep(5000);
+
 				// initialize the SLDR
 				Sldr.Initialize();
 

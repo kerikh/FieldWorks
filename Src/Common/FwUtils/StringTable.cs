@@ -52,7 +52,8 @@ namespace SIL.FieldWorks.Common.FwUtils
 						if (parentOfLanguageExplorerFolder.EndsWith("lib/fieldworks"))
 						{
 							installedBinary = true;
-							parentOfLanguageExplorerFolder = Path.Combine(
+							// /usr/share/fieldworks or /app/share/fieldworks if running in flatpak. Mono 5 is giving /usr/share for CommonApplicationData when running in flatpak.
+							parentOfLanguageExplorerFolder = Environment.GetEnvironmentVariable("FW_ROOT") ?? Path.Combine(
 								Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData),
 								"fieldworks");
 							Console.WriteLine($"DEBUG2 string table Table.get parentOfLanguageExplorerFolder={parentOfLanguageExplorerFolder}");

@@ -44,7 +44,9 @@ namespace SIL.FieldWorks.Common.FwUtils
 					var installedBinary = false;
 					if (Platform.IsLinux)
 					{
-						MessageBox.Show($"DEBUG1 installedBinary={installedBinary}, parentOfLanguageExplorerFolder={parentOfLanguageExplorerFolder}");
+						Console.WriteLine($"DEBUG1 installedBinary={installedBinary}, parentOfLanguageExplorerFolder={parentOfLanguageExplorerFolder}");
+						Console.WriteLine($"DEBUG3 thread sleep 5000 for debugger attach");
+						System.Threading.Thread.Sleep(5000);
 						// First check if we're running an installed version. If so, replace
 						// /usr/lib/fieldworks with /usr/share/fieldworks
 						if (parentOfLanguageExplorerFolder.EndsWith("lib/fieldworks"))

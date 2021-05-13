@@ -128,6 +128,10 @@
     },
     // To debug FW managed code in flatpak, run FieldWorks using the following, and then start the debugger:
     //   flatpak run --devel --env=FW_DEBUG=true --env=FW_MONO_OPTS=--debugger-agent=address=127.0.0.1:55555,transport=dt_socket,server=y,suspend=n org.sil.FieldWorks
+    // Or open the flatpak with:
+    //   flatpak-builder --run builddir org.sil.FieldWorks.yml bash
+    //   and then in the flatpak environment, run the following, and then start the debugger:
+    //   FW_MONO_OPTS=--debugger-agent=address=127.0.0.1:55555,transport=dt_socket,server=y,suspend=y fieldworks-flex
     {
       "name": "Attach to local (such as flatpak)",
       "type": "mono",
@@ -137,6 +141,9 @@
     },
     // To debug FW unmanaged code in flatpak, run using:
     //   flatpak run --devel --env=FW_DEBUG=true --env=FW_COMMAND_PREFIX="gdbserver 127.0.0.1:9999" --env=FW_MONO_COMMAND=/app/bin/mono-sgen org.sil.FieldWorks
+    //   flatpak-builder --run builddir org.sil.FieldWorks.yml bash
+    //   and then in the flatpak environment, run:
+    //   (cd /app/lib/fieldworks && RUNMODE="INSTALLED" . ./environ && gdbserver 127.0.0.1:9999 /app/bin/mono-sgen --debug FieldWorks.exe)
     {
       "type": "gdb",
       "request": "attach",

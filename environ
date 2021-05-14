@@ -13,7 +13,6 @@
 # dotnet tools path, if present.
 unset LD_LIBRARY_PATH \
   LD_PRELOAD \
-  PATH \
   MONO_ENABLE_SHM \
   MONO_IOMAP \
   MONO_WINFORMS_XIM_STYLE \
@@ -24,7 +23,7 @@ unset LD_LIBRARY_PATH \
   WINFORMS_STYLE_TITLEBAR_COLOR_1 \
   WINFORMS_STYLE_TITLEBAR_COLOR_2 \
   WINFORMS_STYLE_TITLEBAR_VERTICAL_GRADIENT
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+export PATH="${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
 DOTNET_TOOLS_PATHER="/etc/profile.d/dotnet-cli-tools-bin-path.sh"
 if [ -f "${DOTNET_TOOLS_PATHER}" ]; then
   . "${DOTNET_TOOLS_PATHER}"

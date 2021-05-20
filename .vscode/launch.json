@@ -83,7 +83,7 @@
       "type": "mono",
       "request": "launch",
       "program": "${workspaceRoot}/Output/Debug/FieldWorks.exe",
-      "cwd": "${workspaceRoot}"
+      "cwd": "${workspaceRoot}",
       "preLaunchTask": "build recent"
     },
     {

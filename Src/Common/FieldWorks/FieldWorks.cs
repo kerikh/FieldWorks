@@ -213,6 +213,9 @@ namespace SIL.FieldWorks
 
 				Console.WriteLine($"DEBUG4 thread sleep 5000 for debugger attach");
 				System.Threading.Thread.Sleep(5000);
+				Console.WriteLine($"DEBUG4b done sleeping");
+				Console.WriteLine($"DEBUG4c hello");
+
 
 				// initialize the SLDR
 				Sldr.Initialize();

@@ -6,6 +6,7 @@
 #
 #	MarkS - 2007-08-08
 
+# Print more debugging information during packaging.
 FW_PACKAGE_DEBUG ?= false
 BUILD_TOOL = msbuild
 # Verbosity: normal or detailed
@@ -24,6 +25,9 @@ BUILD_CONFIG ?= Release
 all:
 
 externaltargets: \
+	[[ FW_PACKAGE_DEBUG != true ]] || env
+	[[ FW_PACKAGE_DEBUG != true ]] || which icu-config
+	[[ FW_PACKAGE_DEBUG != true ]] || icu-config --cppflags --ldflags --libdir
 	Win32Base \
 	COM-all \
 	COM-install \

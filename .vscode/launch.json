@@ -87,7 +87,7 @@
       "preLaunchTask": "build recent"
     },
     {
-      "name": "Launch FW from flatpak (to attach debugger)",
+      "name": "Launch FW from flatpak (to attach C# debugger)",
       "env": {
         // Use Flexbridge from code, rather than a package, if desired.
         // "FLEXBRIDGEDIR": "${workspaceRoot}/../flexbridge/output/DebugMono",
@@ -155,7 +155,7 @@
       "executable": "",
       "target": "127.0.0.1:9999",
       "remote": true,
-      "cwd": "${workspaceRoot}/Output_x86_64/Debug",
+      "cwd": "${workspaceRoot}",
       "gdbpath": "/usr/bin/gdb",
       "autorun": [
         "set sysroot target:/",

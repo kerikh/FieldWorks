@@ -152,7 +152,7 @@
       "type": "gdb",
       "request": "attach",
       "name": "Attach to local gdbserver",
-      "executable": "/opt/mono5-sil/bin/mono-sgen",
+      "executable": "",
       "target": "127.0.0.1:9999",
       "remote": true,
       "cwd": "${workspaceRoot}/Output_x86_64/Debug",

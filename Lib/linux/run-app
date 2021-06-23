@@ -2,7 +2,7 @@
 
 # Run a FieldWorks application
 
-[[ -z ${FW_DEBUG} ]] || set +x
+[[ -z ${FW_DEBUG} ]] || set -x
 
 scriptdir=$(dirname "$0")
 prefix=$(cd "$scriptdir/../.."; /bin/pwd)

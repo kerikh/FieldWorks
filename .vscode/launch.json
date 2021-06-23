@@ -136,7 +136,7 @@
     //   and then in the flatpak environment, run the following, and then start the debugger:
     //   FW_MONO_OPTS=--debugger-agent=address=127.0.0.1:55555,transport=dt_socket,server=y,suspend=y fieldworks-flex
     {
-      "name": "Attach to local (such as flatpak)",
+      "name": "Attach to local C# (such as flatpak)",
       "type": "mono",
       "request": "attach",
       "address": "localhost",
@@ -151,7 +151,7 @@
     {
       "type": "gdb",
       "request": "attach",
-      "name": "Attach to local gdbserver",
+      "name": "Attach to local C++ gdbserver",
       "executable": "",
       "target": "127.0.0.1:9999",
       "remote": true,

@@ -31,6 +31,8 @@ if [ -f "${DOTNET_TOOLS_PATHER}" ]; then
   . "${DOTNET_TOOLS_PATHER}"
 fi
 
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${HOME}/.config}
+
 if [[ -d /app/lib/fieldworks ]]; then
   # We are running in flatpak.
   MONO_PREFIX=/app
@@ -93,13 +95,13 @@ if [ "$RUNMODE" = "INSTALLED" ]
 then
 	COMPONENTS_MAP_PATH="${BASE}"
 	FW_ROOT="${BASE}/../../share/fieldworks"
-	FW_ROOTDATA="${HOME}/.config/fieldworks"
+	FW_ROOTDATA="${XDG_CONFIG_HOME}/fieldworks"
 	FW_ROOTCODE="${BASE}/../../share/fieldworks"
-	ICU_DATA="${HOME}/.config/fieldworks/Icu54"
+	ICU_DATA="${XDG_CONFIG_HOME}/fieldworks/Icu54"
 	PATH="${BASE}/icu-bin:${PATH}"
 	# Including /usr/lib/x86_64-linux-gnu so flatpak fw can find libdl.so.2.
 	LD_LIBRARY_PATH="${BASE}:${BASE}/lib:${LD_LIBRARY_PATH}:/app/lib:/usr/lib/x86_64-linux-gnu"
-	MONO_REGISTRY_PATH="${HOME}/.config/fieldworks/registry"
+	MONO_REGISTRY_PATH="${XDG_CONFIG_HOME}/fieldworks/registry"
 	MONO_HELP_VIEWER=${BASE}/launch-xchm
 else
 	COMPONENTS_MAP_PATH="${BASE}/Output_${ARCH}/${BUILD}"

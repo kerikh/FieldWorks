@@ -161,7 +161,8 @@
         "set sysroot target:/",
         // Map source build location to where it is on your workstation to help breakpoints
         // ( https://sourceware.org/gdb/onlinedocs/gdb/Source-Path.html#index-default-source-path-substitution ).
-        "set substitute-path /run/build/fieldworks ${workspaceRoot}/.."
+        "set substitute-path /run/build/fieldworks ${workspaceRoot}/..",
+        "set substitute-path /run/build/icu-fw ${workspaceRoot}/../icu-fw"
       ]
     },
   ]

@@ -10,9 +10,10 @@ flatpak run org.freedesktop.appstream-glib validate org.sil.FieldWorks.metainfo.
 ```
 -->
 
+<!-- Change component type to 'desktop-application' once RHEL 7 goes EOL (in 2026?). ( https://github.com/flathub/flathub/wiki/AppData-Guidelines#upgrading ) -->
 <component type="desktop">
   <id>org.sil.FieldWorks</id>
-  <metadata_license>LGPL-2.1+</metadata_license>
+  <metadata_license>CC-BY-SA-3.0</metadata_license>
   <project_license>LGPL-2.1+ AND MIT</project_license>
   <name>FieldWorks Language Explorer</name>
   <summary>Suite of programs to manage language and cultural data</summary>
@@ -27,16 +28,9 @@ flatpak run org.freedesktop.appstream-glib validate org.sil.FieldWorks.metainfo.
     <p>FieldWorks supports complex non-roman scripts using Graphite.</p>
   </description>
 
-  <categories>
-    <category>Humanities</category>
-    <category>Languages</category>
-    <category>Dictionary</category>
-    <category>Education</category>
-  </categories>
-
-  <icon type="remote" width="80" height="80">https://software.sil.org/fieldworks/wp-content/uploads/sites/38/2016/06/FW-cube-80x80.png</icon>
-
   <launchable type="desktop-id">fieldworks-applications.desktop</launchable>
+
+  <!-- icon and categories are specified in the .deskotp file. -->
 
   <screenshots>
     <!-- These screenshots are supposed to be in 16:9 ratio, and will look more native if they are taken on Linux. See the docs at https://freedesktop.org/software/appstream/docs/chap-Quickstart.html#qsr-app-screenshots-info -->

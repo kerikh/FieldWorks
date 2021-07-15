@@ -16,7 +16,7 @@ flatpak run org.freedesktop.appstream-glib validate org.sil.FieldWorks.metainfo.
   <metadata_license>CC-BY-SA-3.0</metadata_license>
   <project_license>LGPL-2.1+ AND MIT</project_license>
   <name>FieldWorks Language Explorer</name>
-  <summary>Suite of programs to manage language and cultural data</summary>
+  <summary>Language and cultural data management</summary>
   <developer_name>SIL International</developer_name>
 
   <description>

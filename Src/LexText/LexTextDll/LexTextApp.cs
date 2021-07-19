@@ -896,18 +896,19 @@ namespace SIL.FieldWorks.XWorks.LexText
 		{
 			try
 			{
-				if (MiscUtils.IsUnix && (path.EndsWith(".html") || path.EndsWith(".htm")))
-				{
-					using (Process.Start(webBrowserProgramLinux, Enquote(path)))
-					{
-					}
-				}
-				else
-				{
+				Console.WriteLine($"DEBUG LexTextApp.cs path {path}");
+				// if (MiscUtils.IsUnix && (path.EndsWith(".html") || path.EndsWith(".htm")))
+				// {
+				// 	using (Process.Start(webBrowserProgramLinux, Enquote(path)))
+				// 	{
+				// 	}
+				// } // UploadToWebonaryDlg.cs works by just process.start the url and it works on linux.
+				// else
+				// {
 					using (Process.Start(path))
 					{
 					}
-				}
+				// }
 			}
 			catch (T e)
 			{

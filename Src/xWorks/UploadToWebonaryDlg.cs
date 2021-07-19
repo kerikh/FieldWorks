@@ -53,6 +53,7 @@ namespace SIL.FieldWorks.XWorks
 			// When a link is clicked, open a web page to the URL.
 			explanationLabel.LinkClicked += (sender, args) =>
 			{
+				Console.WriteLine($"DEBUG UploadToWebonaryDlg.cs url: {((LinkLabel) sender).Text.Substring(args.Link.Start, args.Link.Length)}");
 				using (Process.Start(((LinkLabel) sender).Text.Substring(args.Link.Start, args.Link.Length)))
 				{}
 			};

@@ -53,6 +53,13 @@ namespace SIL.FieldWorks.ParatextLexiconPlugin
 			get
 			{
 				string linuxDir = Environment.GetEnvironmentVariable("FW_ROOTCODE") ?? "/usr/share/fieldworks";
+
+				//begin debugging info
+				string fwRootCode=Environment.GetEnvironmentVariable("FW_ROOTCODE");
+				string windowsOne = Path.GetDirectoryName(FileUtils.StripFilePrefix(Assembly.GetExecutingAssembly().CodeBase));
+				Console.WriteLine($"DEBUG ParatextLexiconPluginDirectoryFinder.cs FW_ROOTCODE env is {fwRootCode} and linuxDir is {linuxDir} and windows one is {windowsOne}");
+				//end debugging info
+
 				return GetDirectory(RootCodeDir, MiscUtils.IsUnix ? linuxDir
 					: Path.GetDirectoryName(FileUtils.StripFilePrefix(Assembly.GetExecutingAssembly().CodeBase)));
 			}

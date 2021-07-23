@@ -558,6 +558,15 @@ namespace SIL.FieldWorks.XWorks.LexText
 		}
 
 		/// <summary>
+		/// Returns str surrounded by double-quotes.
+		/// This is useful for paths containing spaces in Linux.
+		/// </summary>
+		private static string Enquote(string str)
+		{
+			return "\"" + str + "\"";
+		}
+
+		/// <summary>
 		/// Open URL or local file (eg .pdf or .html) in an appropriate application to be viewed.
 		/// </summary>
 		private static void OpenResource(string path)
@@ -565,10 +574,7 @@ namespace SIL.FieldWorks.XWorks.LexText
 			if (MiscUtils.IsUnix)
 			{
 				string preferredApplicationOpener = "xdg-open";
-				// Pass the path, not as a string of arguments, but as a given argument, so spaces
-				// etc. will be escaped by the underlying library.
-				string[] args = {path};
-				using (Process.Start(preferredApplicationOpener, args))
+				using (Process.Start(preferredApplicationOpener, Enquote(path)))
 				{
 				}
 			}

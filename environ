@@ -31,7 +31,9 @@ if [ -f "${DOTNET_TOOLS_PATHER}" ]; then
   . "${DOTNET_TOOLS_PATHER}"
 fi
 
-XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${HOME}/.config}
+# See explanation in setup-user regarding use of a hard-coded path for config dir.
+STANDARD_XDG_CONFIG_HOME="${HOME}/.config"
+FW_CONFIG_DIR="${STANDARD_XDG_CONFIG_HOME}/fieldworks"
 
 if [[ -d /app/lib/fieldworks ]]; then
   # We are running in flatpak.
@@ -95,13 +97,14 @@ if [ "$RUNMODE" = "INSTALLED" ]
 then
 	COMPONENTS_MAP_PATH="${BASE}"
 	FW_ROOT="${BASE}/../../share/fieldworks"
-	FW_ROOTDATA="${XDG_CONFIG_HOME}/fieldworks"
+	FW_ROOTDATA="${FW_CONFIG_DIR}"
 	FW_ROOTCODE="${BASE}/../../share/fieldworks"
-	ICU_DATA="${XDG_CONFIG_HOME}/fieldworks/Icu54"
+	ICU_DATA="${FW_CONFIG_DIR}/Icu54"
 	PATH="${BASE}/icu-bin:${PATH}"
 	# Including /usr/lib/x86_64-linux-gnu so flatpak fw can find libdl.so.2.
 	LD_LIBRARY_PATH="${BASE}:${BASE}/lib:${LD_LIBRARY_PATH}:/app/lib:/usr/lib/x86_64-linux-gnu"
-	MONO_REGISTRY_PATH="${XDG_CONFIG_HOME}/fieldworks/registry"
+	# This is one of at least two mono registry paths used. Another is ~/.mono/registry, such as for CurrentUser.
+	MONO_REGISTRY_PATH="${FW_CONFIG_DIR}/registry"
 	MONO_HELP_VIEWER=${BASE}/launch-xchm
 else
 	COMPONENTS_MAP_PATH="${BASE}/Output_${ARCH}/${BUILD}"

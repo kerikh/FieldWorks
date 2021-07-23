@@ -3,33 +3,45 @@
 # This software is licensed under the LGPL, version 2.1 or later
 # (http://www.gnu.org/licenses/lgpl-2.1.html)
 #
-# see http://standards.freedesktop.org/basedir-spec/basedir-spec-0.6.html for standard
+# See http://standards.freedesktop.org/basedir-spec/basedir-spec-0.6.html for standard
 # locations and environment variables
+#
+# Note that setup-user is used without being inside environ settings.
 
 [[ -z ${FW_DEBUG} ]] || set -x
 
-XDG_DATA_HOME=${XDG_DATA_HOME:-${HOME}/.local/share}
-XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-${HOME}/.config}
+# It's good to write our data and config to XDG_DATA_HOME and XDG_CONFIG_HOME.
+# But in Ubuntu 20.04, these aren't set anyway, and so we just fall back to
+# hard-coded defaults. And in flatpak they are set to good locations that we
+# don't want to use yet so we can continue using the directories that are used
+# by the deb package until we choose to migrate to new directories. So for now,
+# for both deb and flatpak packages, hard-code the DATA and CONFIG locations.
+# This could potentially cause trouble if any user had XDG_DATA_HOME or
+# XDG_CONFIG_HOME set. We would need to be able to access these values on the
+# host, from within the flatpak container, in order to use them.
+
+STANDARD_XDG_DATA_HOME="${HOME}/.local/share"
+STANDARD_XDG_CONFIG_HOME="${HOME}/.config"
 
 scriptdir="$(dirname "$0")"
 prefix=$(cd "$scriptdir/../.."; /bin/pwd)
-FW_DATA="${XDG_DATA_HOME}/fieldworks"
-FW_CONFIG="${XDG_CONFIG_HOME}/fieldworks"
+FW_DATA="${STANDARD_XDG_DATA_HOME}/fieldworks"
+FW_CONFIG="${STANDARD_XDG_CONFIG_HOME}/fieldworks"
 FW_LIB=$prefix/lib/fieldworks
 FW_SHARE=$prefix/share/fieldworks
 
 WRITEKEY="${FW_LIB}/WriteKey.exe"
 READKEY="${FW_LIB}/ReadKey.exe"
 
-# Usage: Debug "foo baz" "bar"
+# Usage: Debug "blah blah" "blah"
 Debug()
 {
 	[[ -z ${FW_DEBUG} ]] || echo -e "$(date +'%F %T') setup-user[$$]: " "$@"
 }
 
-Debug "XDG_DATA_HOME is ${XDG_DATA_HOME}"
-Debug "XDG_CONFIG_HOME is ${XDG_CONFIG_HOME}"
-Debug "prefix is ${prefix}"
+Debug "FW_DATA:   ${FW_DATA}"
+Debug "FW_CONFIG: ${FW_CONFIG}"
+Debug "prefix:    ${prefix}"
 
 WriteKey()
 {

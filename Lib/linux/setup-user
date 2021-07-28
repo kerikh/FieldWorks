@@ -9,6 +9,8 @@
 # Note that setup-user is used without being inside environ settings.
 
 [[ -z ${FW_DEBUG} ]] || set -x
+declare -g debugVerboseFlag=""
+[[ -z ${FW_DEBUG} ]] || debugVerboseFlag="-v"
 
 # It's good to write our data and config to XDG_DATA_HOME and XDG_CONFIG_HOME.
 # But in Ubuntu 20.04, these aren't set anyway, and so we just fall back to
@@ -19,9 +21,14 @@
 # This could potentially cause trouble if any user had XDG_DATA_HOME or
 # XDG_CONFIG_HOME set. We would need to be able to access these values on the
 # host, from within the flatpak container, in order to use them.
-
 STANDARD_XDG_DATA_HOME="${HOME}/.local/share"
 STANDARD_XDG_CONFIG_HOME="${HOME}/.config"
+
+# We will attempt to use XDG_DATA_HOME for FEC data.
+# Set XDG_DATA_HOME to the standard location if it isn't already set, such as
+# by the user or flatpak.
+declare -g XDG_DATA_HOME
+XDG_DATA_HOME="${XDG_DATA_HOME:-${STANDARD_XDG_DATA_HOME}}"
 
 scriptdir="$(dirname "$0")"
 prefix=$(cd "$scriptdir/../.."; /bin/pwd)
@@ -29,6 +36,8 @@ FW_DATA="${STANDARD_XDG_DATA_HOME}/fieldworks"
 FW_CONFIG="${STANDARD_XDG_CONFIG_HOME}/fieldworks"
 FW_LIB=$prefix/lib/fieldworks
 FW_SHARE=$prefix/share/fieldworks
+declare -g EC_COMMON_APPLICATION_DATA_PATH
+EC_COMMON_APPLICATION_DATA_PATH="${XDG_DATA_HOME}/fec-common-app-data"
 
 WRITEKEY="${FW_LIB}/WriteKey.exe"
 READKEY="${FW_LIB}/ReadKey.exe"
@@ -39,16 +48,17 @@ Debug()
 	[[ -z ${FW_DEBUG} ]] || echo -e "$(date +'%F %T') setup-user[$$]: " "$@"
 }
 
-Debug "FW_DATA:   ${FW_DATA}"
+Debug "FW_DATA: ${FW_DATA}"
 Debug "FW_CONFIG: ${FW_CONFIG}"
-Debug "prefix:    ${prefix}"
+Debug "XDG_DATA_HOME: ${XDG_DATA_HOME}"
+Debug "EC_COMMON_APPLICATION_DATA_PATH: ${EC_COMMON_APPLICATION_DATA_PATH}"
+Debug "prefix: ${prefix}"
 
 WriteKey()
 {
 	Debug "Writing" "$@"
 	mono "${WRITEKEY}" "$@"
 }
-
 
 ReadKey()
 {
@@ -61,7 +71,8 @@ ReadKey()
 	mono "${READKEY}" "$@")
 }
 
-# For example: CopyRegistryKey LM "Software/SIL/FieldWorks/7.0" "ProjectsDir" LM "Software/SIL/FieldWorks/8" "ProjectsDir"
+# For example:
+#   CopyRegistryKey LM "Software/SIL/FieldWorks/7.0" "ProjectsDir" LM "Software/SIL/FieldWorks/8" "ProjectsDir"
 CopyRegistryKey()
 {
 	SOURCE_ROOT="$1"
@@ -76,18 +87,44 @@ CopyRegistryKey()
 		"$(ReadKey "$SOURCE_ROOT" "$SOURCE_LOCATION" "$SOURCE_KEY")"
 }
 
+# Install initial FieldWorks Encoding Converters files to a user-specific
+# location
+InstallUserFECData()
+{
+	# The source directory is the value used by
+	# encoding-converters-core/Makefile.in REGROOT.
+	local sourceDir
+	sourceDir="/var/lib/fieldworks"
+	local destDir
+	destDir="${EC_COMMON_APPLICATION_DATA_PATH}"
+
+	if [[ -d "${destDir}/registry" && -d "${destDir}/SIL" ]]; then
+		Debug "FEC data is already installed into '${destDir}'."
+		return 0
+	fi
+
+	Debug "Installing FEC data from '${sourceDir}' into '${destDir}'."
+	mkdir -p "${destDir}"
+	# Copy the two things that FEC Makefile.in installs: values.xml and
+	# redist/MapsTables. The MapTables are elsewhere being copied to
+	# FW_CONFIG, so it may or may not be important to copy them here as well.
+	cp ${debugVerboseFlag} -dr "${sourceDir}/registry" "${sourceDir}/SIL" "${destDir}/"
+}
+
 (
 	if [ ! -d "${FW_CONFIG}/Icu54/" ]; then
 		echo "# Copying ICU data"
 		mkdir -p "${FW_CONFIG}"
-		cp -a "${FW_SHARE}/Icu54" "${FW_CONFIG}/"
+		cp ${debugVerboseFlag} -a "${FW_SHARE}/Icu54" "${FW_CONFIG}/"
 	fi
 
 	if [ ! -d "${FW_CONFIG}/SIL/" ]; then
 		echo "# Copying encoding converter registry"
 		mkdir -p "${FW_CONFIG}/"
-		cp -a "${FW_SHARE}/SIL" "${FW_CONFIG}/"
+		cp ${debugVerboseFlag} -a "${FW_SHARE}/SIL" "${FW_CONFIG}/"
 	fi
+
+	InstallUserFECData
 
 	if [ ! -d "${FW_DATA}/Projects/" ]; then
 		echo "# Creating default Project database directory"

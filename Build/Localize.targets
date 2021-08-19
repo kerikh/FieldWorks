@@ -122,7 +122,8 @@
 	</Target>
 
 	<Target Name="updateOneTemplateLdmlFile">
-		<DownloadFile Address="$(SldrUrl)$(Locale)" DownloadsDir="$(fwrt)/DistFiles/Templates" LocalFilename="$(Locale).ldml"/>
+		<Message Condition="'$(FW_PACKAGE_DEBUG)'=='true'" "Downloading $(SldrUrl)$(Locale) to $(fwrt)/DistFiles/Templates/$(Locale).ldml (unless '$(disableDownloads)')"/>
+		<DownloadFile Address="$(SldrUrl)$(Locale)" DownloadsDir="$(fwrt)/DistFiles/Templates" LocalFilename="$(Locale).ldml" Condition="'$(disableDownloads)'!='true'"/>
 	</Target>
 
 	<!-- Create and zip LocalizedLists-*.xml files to DistFiles/Templates -->

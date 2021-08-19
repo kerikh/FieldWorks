@@ -122,7 +122,7 @@
 	</Target>
 
 	<Target Name="updateOneTemplateLdmlFile">
-		<Message Condition="'$(FW_PACKAGE_DEBUG)'=='true'" "Downloading $(SldrUrl)$(Locale) to $(fwrt)/DistFiles/Templates/$(Locale).ldml (unless '$(disableDownloads)')"/>
+		<Message Condition="'$(FW_PACKAGE_DEBUG)'=='true'" Text="Downloading $(SldrUrl)$(Locale) to $(fwrt)/DistFiles/Templates/$(Locale).ldml (unless '$(disableDownloads)')"/>
 		<DownloadFile Address="$(SldrUrl)$(Locale)" DownloadsDir="$(fwrt)/DistFiles/Templates" LocalFilename="$(Locale).ldml" Condition="'$(disableDownloads)'!='true'"/>
 	</Target>
 

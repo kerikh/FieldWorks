@@ -383,7 +383,7 @@ ComponentsMap-clean:
 
 build-package-for-deb: Fw-build-package
 
-build-package-for-flatpak: build-package
+build-package-for-flatpak: localize-source build-package
 
 check-have-build-dependencies:
 	$(BUILD_ROOT)/Build/Agent/install-deps --verify

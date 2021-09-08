@@ -383,6 +383,7 @@ ComponentsMap-clean:
 
 diagnostics:
 	[[ -z $(FW_PACKAGE_DEBUG) ]] || { \
+		echo Diagnostics: ;\
 		set -x ;\
 		pwd ;\
 		which mono msbuild ;\
@@ -391,9 +392,16 @@ diagnostics:
 		env ;\
 	}
 
+diagnostics-display-output:
+	[[ -z $(FW_PACKAGE_DEBUG) ]] || { \
+		echo Diagnostics: Begin list of output: ;\
+		find -L Output | xargs md5sum ;\
+		echo Diagnostics: End list of output: ;\
+	}
+
 build-package-for-deb: Fw-build-package
 
-build-package-for-flatpak: diagnostics localize-source-internal build-package
+build-package-for-flatpak: diagnostics localize-source-internal diagnostics-display-output build-package
 
 check-have-build-dependencies:
 	$(BUILD_ROOT)/Build/Agent/install-deps --verify

@@ -32,6 +32,7 @@
 	</PropertyGroup>
 
 	<Target Name="InstallOvercrowdin">
+		<Message Text="DEBUG-IO LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
 		<Message Condition="'$(disableDownloads)'!='true'" Text="disableDownloads: Skipping dotnet tool install overcrowdin."/>
 		<!-- Install overcrowdin, or update if already installed. -->
 		<Exec WorkingDirectory="$(fwrt)" Command="dotnet tool update -g overcrowdin || dotnet tool install -g overcrowdin" Condition="'$(disableDownloads)'!='true'"/>
@@ -39,6 +40,7 @@
 
 	<!-- Update localizable files in Crowdin -->
 	<Target Name="uploadUpdatesForTranslation" DependsOnTargets="CopyLcmResxFiles;InstallOvercrowdin">
+		<Message Text="DEBUG-uuft LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
 		<ItemGroup>
 			<OldXliffs Include="$(ListsDirectory)/*.xlf"/>
 		</ItemGroup>
@@ -51,6 +53,7 @@
 	</Target>
 
 	<Target Name="CopyLcmResxFiles" DependsOnTargets="VerifyLcmCloned">
+		<Message Text="DEBUG-clrf LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
 		<ForceDelete Files="$(L10nsBaseDir)/LCM"/>
 		<ItemGroup>
 			<LcmResxFiles Include="$(LcmSrcDir)/**/*.resx"/>
@@ -61,12 +64,14 @@
 	</Target>
 
 	<Target Name="VerifyLcmCloned">
+		<Message Text="DEBUG3 LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
 		<Error Text="To update localizations, liblcm must be cloned locally. Run 'build /t:UpdateDevelopmentPropertiesFile' to set the liblcm location. LcmSrcDir '$(LcmSrcDir)' was not found. LcmLocalArtifactsDir is '$(LcmLocalArtifactsDir)'."
 			Condition="!Exists('$(LcmSrcDir)')"/>
 	</Target>
 
 	<!-- Download translations from Crowdin (and LDML files from SLDR) -->
 	<Target Name="downloadTranslatedFiles" DependsOnTargets="InstallOvercrowdin">
+		<Message Text="DEBUG-dtf LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
 		<ForceDelete Files="$(L10nsDirectory)"/>
 		<MakeDir Directories="$(DownloadsDir)"/>
 		<Message Condition="'$(disableDownloads)'!='true'" Text="disableDownloads: Skipping overcrowdin download."/>
@@ -85,6 +90,7 @@
 	</Target>
 
 	<Target Name="copyLibL10ns">
+		<Message Text="DEBUG-cll LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
 	<PropertyGroup>
 		<ChorusL10nsNugetDir>$(fwrt)/packages/SIL.Chorus.l10ns.3.0.1</ChorusL10nsNugetDir>
 		<PalasoL10nsNugetDir>$(fwrt)/packages/SIL.libpalaso.l10ns.6.0.0</PalasoL10nsNugetDir>
@@ -105,7 +111,8 @@
 			* Move LCM resx files to a more convenient place (they have extra folders in Crowdin
 			  because of the folder structure we use to upload them) -->
 	<Target Name="postProcessDownloadedTranslation">
-		<Message Text="Converting po file and relocating LCM .resx files for $(Locale)" />
+			<Message Text="DEBUG-ppdt LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
+	<Message Text="Converting po file and relocating LCM .resx files for $(Locale)" />
 		<PoToXml PoFile="$(LocaleDir)/messages.$(Locale).po" StringsXml="$(LocaleDir)/strings-$(Locale).xml"/>
 		<ItemGroup>
 			<TranslatedResxFiles Include="$(LocaleDir)/Localizations/LCM/**/*.resx"/>
@@ -114,7 +121,8 @@
 	</Target>
 
 	<Target Name="combineGOLDEtic">
-		<PropertyGroup>
+			<Message Text="DEBUG-cge LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
+	<PropertyGroup>
 			<OutputXml>$(fwrt)/DistFiles/Templates/GOLDEtic.xml</OutputXml>
 		</PropertyGroup>
 		<ItemGroup>
@@ -124,13 +132,15 @@
 	</Target>
 
 	<Target Name="updateOneTemplateLdmlFile">
+		<Message Text="DEBUG-uotlf LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
 		<Message Condition="'$(FW_PACKAGE_DEBUG)'=='true'" Text="Downloading $(SldrUrl)$(Locale) to $(fwrt)/DistFiles/Templates/$(Locale).ldml"/>
 		<Message Condition="'$(disableDownloads)'!='true'" Text="disableDownloads: Skipping download of $(SldrUrl)$(Locale) to $(fwrt)/DistFiles/Templates/$(Locale).ldml."/>
 		<DownloadFile Address="$(SldrUrl)$(Locale)" DownloadsDir="$(fwrt)/DistFiles/Templates" LocalFilename="$(Locale).ldml" Condition="'$(disableDownloads)'!='true'"/>
 	</Target>
 
 	<!-- Create and zip LocalizedLists-*.xml files to DistFiles/Templates -->
-	<Target Name="zipLocalizedLists">
+	<Target Name="zipLocalizedLists">		<Message Text="DEBUG-zll LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
+
 		<ItemGroup>
 			<LocaleDirs Include="$([System.IO.Directory]::GetDirectories(&quot;$(L10nsDirectory)&quot;))"/>
 		</ItemGroup>
@@ -139,7 +149,8 @@
 	</Target>
 
 	<!-- Combine list *.xlf files into a single .xml file for one `LocaleDir` and zip into DistFiles/Templates -->
-	<Target Name="combineAndZipListsForOneLocale">
+	<Target Name="combineAndZipListsForOneLocale">		<Message Text="DEBUG-cazlfol LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
+
 		<PropertyGroup>
 			<OutputXml>$(LocaleDir)/Lists/LocalizedLists-$(Locale).xml</OutputXml>
 		</PropertyGroup>
@@ -151,7 +162,8 @@
 	</Target>
 
 	<!-- Convert LocalizedLists-*.xml files from Localizations to xliff to upload as completed translations -->
-	<Target Name="convertLocalizedListsToXliff">
+	<Target Name="convertLocalizedListsToXliff">		<Message Text="DEBUG-clltx LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
+
 		<ItemGroup>
 			<ListsXmlFiles Include="$(L10nsBaseDir)/LocalizedLists-*.xml"/>
 			<OldXliffFiles Include="$(ListsDirectory)/*/*.xlf"/>
@@ -160,7 +172,8 @@
 		<MSBuild Projects="$(MSBuildProjectFullPath)" Targets="splitListsForOneLocale"
 			Properties="ListsXml=%(ListsXmlFiles.Identity);BareFilename=%(Filename)"/>
 	</Target>
-	<Target Name="splitListsForOneLocale">
+	<Target Name="splitListsForOneLocale">		<Message Text="DEBUG-slfol LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
+
 		<PropertyGroup>
 			<Locale>$(BareFilename.Substring(15))</Locale><!-- there are 15 chars in 'LocalizedLists-' -->
 			<XliffOutputDir>$(ListsDirectory)/$(Locale)</XliffOutputDir>
@@ -171,9 +184,11 @@
 
 	<!-- Copy translated .resx files and strings-<locale>.xml to their destinations -->
 	<Target Name="processLanguages-source" DependsOnTargets="VerifyLcmCloned">
-	<!-- Process source for liblcm -->
-	<Message Text="LcmRootDir = $(LcmRootDir)" />
-	<!-- Passing RootDir as SrcFolder because LCM stores common assembly info in its root dir. -->
+		<Message Text="DEBUG-pls LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
+
+		<!-- Process source for liblcm -->
+		<Message Text="LcmRootDir = $(LcmRootDir)" />
+		<!-- Passing RootDir as SrcFolder because LCM stores common assembly info in its root dir. -->
 		<LocalizeFieldWorks
 			RootDirectory="$(LcmRootDir)"
 			SrcFolder="$(LcmRootDir)"
@@ -181,7 +196,7 @@
 			Config="$(config-capital)"
 			OutputFolder="$(fwrt)/Output"
 			Build="SourceOnly"/>
-	<!-- Process source for fieldworks -->
+		<!-- Process source for fieldworks -->
 		<LocalizeFieldWorks
 			RootDirectory="$(fwrt)"
 			SrcFolder="$(fwrt)/Src"
@@ -194,6 +209,8 @@
 
 	<!-- Build localized dll's -->
 	<Target Name="processLanguages-binaries" DependsOnTargets="VerifyLcmCloned">
+		<Message Text="DEBUG-plb LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
+
 		<!-- REVIEW (Hasso) 2020.01: what does this copy? -->
 		<ItemGroup>
 			<LocalizationFiles Include="$(fwrt)/Localizations/Output/**/*.*" Condition="Exists('$(fwrt)/Localizations/Output')"/>

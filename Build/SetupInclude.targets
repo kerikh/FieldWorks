@@ -224,6 +224,7 @@
 	  <Output TaskParameter="Value" PropertyName="installation_prefix"/>
 	</CreateProperty>
 	<Message Text="DEBUG1 AFTER installation_prefix is $(installation_prefix). INSTALLATION_PREFIX is $(INSTALLATION_PREFIX)." Importance="normal" />
+	<Message Text="DEBUG2 LcmLocalArtifactsDir is $(LcmLocalArtifactsDir)." />
 
 <!--<if test="${not property::exists('dir.nunitreport')}">-->
 <!--	<property name="dir.nunitreport" value="${nant::get-base-directory()}/extensions/common/neutral/FwTasks/NUnit.Report"/>-->

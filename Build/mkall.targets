@@ -514,7 +514,7 @@
 		<DownloadedFiles Include="$(DownloadsDir)/SIL.HermitCrab.dll"/>
 	</ItemGroup>
 
-	<Target Name="CopyDlls" DependsOnTargets="downloadDlls;copyLibL10ns">
+	<Target Name="CopyDlls" DependsOnTargets="downloadDlls;copyLibL10ns"><Message Text="DEBUG-ma-cd LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
 		<!-- .Net assemblies -->
 		<Copy SourceFiles="$(fwrt)/DistFiles/LinqBridge.dll" DestinationFolder="$(dir-outputBase)"
 				SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true"/>

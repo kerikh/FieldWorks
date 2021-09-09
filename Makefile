@@ -396,7 +396,7 @@ diagnostics-display-output:
 	[[ -z $(FW_PACKAGE_DEBUG) ]] || { \
 		echo Diagnostics: Begin list of output: ;\
 		find -L Output | xargs md5sum ;\
-		echo Diagnostics: End list of output: ;\
+		echo Diagnostics: End list of output. ;\
 	}
 
 build-package-for-deb: Fw-build-package

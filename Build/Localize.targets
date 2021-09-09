@@ -209,7 +209,7 @@
 
 	<Target Name="diagnostic-display-tree">
 		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
-			Command="echo Diagnostic begin display tree; find -L . | xargs md5sum; echo Diagnostic end display tree" />
+			Command="echo Diagnostic begin display tree; find -L . -print0 | xargs -0 md5sum; echo Diagnostic end display tree" />
 	</Target>
 
 	<!-- Build localized dll's -->

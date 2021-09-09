@@ -207,8 +207,13 @@
 			Build="SourceOnly"/>
 	</Target>
 
+	<Target Name="diagnostic-display-tree">
+		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
+			Command="echo Diagnostic begin display tree; find -L . | xargs md5sum; echo Diagnostic end display tree" />
+	</Target>
+
 	<!-- Build localized dll's -->
-	<Target Name="processLanguages-binaries" DependsOnTargets="VerifyLcmCloned">
+	<Target Name="processLanguages-binaries" DependsOnTargets="diagnostic-display-tree;VerifyLcmCloned">
 		<Message Text="DEBUG-plb LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
 
 		<!-- REVIEW (Hasso) 2020.01: what does this copy? -->

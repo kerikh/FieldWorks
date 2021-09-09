@@ -392,16 +392,17 @@ diagnostics:
 		env ;\
 	}
 
-diagnostics-display-output:
+diagnostics-display-tree:
 	[[ -z $(FW_PACKAGE_DEBUG) ]] || { \
-		echo Diagnostics: Begin list of output: ;\
-		find -L Output | xargs md5sum ;\
-		echo Diagnostics: End list of output. ;\
+		echo Diagnostics: Begin display tree: ;\
+		cd .. ;\
+		find libcom liblcm fw -not \( -path '*/.git' -prune \) -type f -print0 | xargs -0 md5sum ;\
+		echo Diagnostics: End display tree. ;\
 	}
 
 build-package-for-deb: Fw-build-package
 
-build-package-for-flatpak: diagnostics localize-source-internal diagnostics-display-output build-package
+build-package-for-flatpak: diagnostics localize-source-internal diagnostics-display-tree build-package
 
 check-have-build-dependencies:
 	$(BUILD_ROOT)/Build/Agent/install-deps --verify

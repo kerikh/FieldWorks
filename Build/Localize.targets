@@ -13,8 +13,8 @@
 
 	<!-- Localize strings-en.xml, lists, and all resx files -->
 	<Target Name="localize" DependsOnTargets="diagnostic-display-tree-fr-resources;localize-source;localize-binaries"/>
-	<Target Name="localize-source" DependsOnTargets="diagnostic-display-tree-fr-resources;Initialize;diagnostic-display-tree-fr-resources;downloadTranslatedFiles;copyLibL10ns;combineGOLDEtic;zipLocalizedLists;processLanguages-source" Condition="'$(DisableLocalization)'!='true'"/>
-	<Target Name="localize-binaries" DependsOnTargets="Initialize;processLanguages-binaries" Condition="'$(DisableLocalization)'!='true'"/>
+	<Target Name="localize-source" DependsOnTargets="diagnostic-display-tree-fr-resources;Initialize;diagnostic-display-tree-fr-resources;downloadTranslatedFiles;copyLibL10ns;combineGOLDEtic;zipLocalizedLists;processLanguages-source;diagnostic-display-tree-fr-resources" Condition="'$(DisableLocalization)'!='true'"/>
+	<Target Name="localize-binaries" DependsOnTargets="diagnostic-display-tree-fr-resources;Initialize;diagnostic-display-tree-fr-resources;processLanguages-binaries;diagnostic-display-tree-fr-resources" Condition="'$(DisableLocalization)'!='true'"/>
 
 	<PropertyGroup>
 		<SldrUrl>https://ldml.api.sil.org/</SldrUrl>
@@ -238,7 +238,7 @@
 	</Target>
 
 	<!-- Build localized dll's -->
-	<Target Name="processLanguages-binaries" DependsOnTargets="diagnostic-display-tree;VerifyLcmCloned">
+	<Target Name="processLanguages-binaries" DependsOnTargets="diagnostic-display-tree-fr-resources;diagnostic-display-tree;VerifyLcmCloned">
 		<Message Text="DEBUG-plb LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
 
 		<!-- REVIEW (Hasso) 2020.01: what does this copy? -->
@@ -249,6 +249,9 @@
 			DestinationFiles="@(LocalizationFiles->'$(fwrt)/Output/%(RecursiveDir)%(Filename)%(Extension)')"
 			SkipUnchangedFiles="true"/>
 
+		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
+			Command="echo Diagnostic begin display tree - ONE processLanguages-binaries; find fw -not '(' -path '*/.git' -prune ')' -type f -name '*.fr.resources' -print0 | xargs -0 md5sum; echo Diagnostic end display tree - ONE processLanguages-binaries" />
+
 	<!-- Process source for liblcm -->
 	<!-- Passing RootDir as SrcFolder because LCM stores common assembly info in its root dir. -->
 		<LocalizeFieldWorks
@@ -258,6 +261,10 @@
 			Config="$(config-capital)"
 			OutputFolder="$(fwrt)/Output"
 			Build="BinaryOnly"/>
+
+		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
+			Command="echo Diagnostic begin display tree - TWO processLanguages-binaries; find fw -not '(' -path '*/.git' -prune ')' -type f -name '*.fr.resources' -print0 | xargs -0 md5sum; echo Diagnostic end display tree - TWO processLanguages-binaries" />
+
 	<!-- Process source for fieldworks -->
 		<LocalizeFieldWorks
 			RootDirectory="$(fwrt)"
@@ -267,6 +274,10 @@
 			OutputFolder="$(fwrt)/Output"
 			CopyStringsXml="true"
 			Build="BinaryOnly"/>
+
+		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
+			Command="echo Diagnostic begin display tree - THREE processLanguages-binaries; find fw -not '(' -path '*/.git' -prune ')' -type f -name '*.fr.resources' -print0 | xargs -0 md5sum; echo Diagnostic end display tree - THREE processLanguages-binaries" />
+
 	</Target>
 
 </Project>

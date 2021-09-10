@@ -12,8 +12,8 @@
 	<UsingTask TaskName="Zip" AssemblyFile="FwBuildTasks.dll"/>
 
 	<!-- Localize strings-en.xml, lists, and all resx files -->
-	<Target Name="localize" DependsOnTargets="localize-source;localize-binaries"/>
-	<Target Name="localize-source" DependsOnTargets="Initialize;downloadTranslatedFiles;copyLibL10ns;combineGOLDEtic;zipLocalizedLists;processLanguages-source" Condition="'$(DisableLocalization)'!='true'"/>
+	<Target Name="localize" DependsOnTargets="diagnostic-display-tree-fr-resources;localize-source;localize-binaries"/>
+	<Target Name="localize-source" DependsOnTargets="diagnostic-display-tree-fr-resources;Initialize;diagnostic-display-tree-fr-resources;downloadTranslatedFiles;copyLibL10ns;combineGOLDEtic;zipLocalizedLists;processLanguages-source" Condition="'$(DisableLocalization)'!='true'"/>
 	<Target Name="localize-binaries" DependsOnTargets="Initialize;processLanguages-binaries" Condition="'$(DisableLocalization)'!='true'"/>
 
 	<PropertyGroup>
@@ -71,6 +71,8 @@
 
 	<!-- Download translations from Crowdin (and LDML files from SLDR) -->
 	<Target Name="downloadTranslatedFiles" DependsOnTargets="InstallOvercrowdin">
+		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
+			Command="echo Diagnostic begin display tree - before some of downloadTranslatedFiles; find fw -not '(' -path '*/.git' -prune ')' -type f -name '*.fr.resources' -print0 | xargs -0 md5sum; echo Diagnostic end display tree - after some of downloadTranslatedFiles" />
 		<Message Text="DEBUG-dtf LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
 		<ForceDelete Files="$(L10nsDirectory)"/>
 		<MakeDir Directories="$(DownloadsDir)"/>
@@ -101,6 +103,8 @@
 			<XliffFiles Include="$(ChorusL10nsNugetDir)/content/**/*.xlf"/>
 			<XliffFiles Include="$(PalasoL10nsNugetDir)/content/**/*.xlf"/>
 		</ItemGroup>
+		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
+			Command="echo Diagnostic begin display tree - before some of copyLibL10ns; find fw -not '(' -path '*/.git' -prune ')' -type f -name '*.fr.resources' -print0 | xargs -0 md5sum; echo Diagnostic end display tree - after some of copyLibL10ns" />
 		<Copy SourceFiles="@(XliffFiles)"
 			DestinationFiles="@(XliffFiles->'$(LibL10nsDirectory)/%(Filename)%(Extension)')"
 			SkipUnchangedFiles="true"/>
@@ -226,6 +230,11 @@
 	<Target Name="diagnostic-display-tree">
 		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
 			Command="echo Diagnostic begin display tree; find libcom liblcm fw -not '(' -path '*/.git' -prune ')' -type f -print0 | xargs -0 md5sum; echo Diagnostic end display tree" />
+	</Target>
+
+	<Target Name="diagnostic-display-tree-fr-resources">
+	<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
+			Command="echo Diagnostic begin display tree - fr-resources; find fw -not '(' -path '*/.git' -prune ')' -type f -name '*.fr.resources' -print0 | xargs -0 md5sum; echo Diagnostic end display tree - fr-resources" />
 	</Target>
 
 	<!-- Build localized dll's -->

@@ -121,8 +121,8 @@
 	</Target>
 
 	<Target Name="combineGOLDEtic">
-			<Message Text="DEBUG-cge LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
-	<PropertyGroup>
+		<Message Text="DEBUG-cge LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
+		<PropertyGroup>
 			<OutputXml>$(fwrt)/DistFiles/Templates/GOLDEtic.xml</OutputXml>
 		</PropertyGroup>
 		<ItemGroup>
@@ -141,7 +141,8 @@
 	</Target>
 
 	<!-- Create and zip LocalizedLists-*.xml files to DistFiles/Templates -->
-	<Target Name="zipLocalizedLists">		<Message Text="DEBUG-zll LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
+	<Target Name="zipLocalizedLists">
+		<Message Text="DEBUG-zll LcmLocalArtifactsDir is $(LcmLocalArtifactsDir), LcmSrcDir is $(LcmSrcDir)."/>
 
 		<ItemGroup>
 			<LocaleDirs Include="$([System.IO.Directory]::GetDirectories(&quot;$(L10nsDirectory)&quot;))"/>

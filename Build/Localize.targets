@@ -128,6 +128,8 @@
 		<ItemGroup>
 			<GEXliffFiles Include="$(L10nsDirectory)/*/Lists/GOLDEtic/GOLDEtic.*.xlf"/>
 		</ItemGroup>
+		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
+			Command="echo Diagnostic begin display tree - before some of combineGOLDEtic; find fw -not '(' -path '*/.git' -prune ')' -type f -name '*.fr.resources' -print0 | xargs -0 md5sum; echo Diagnostic end display tree - after some of combineGOLDEtic" />
 		<XliffToGoldEtic XliffSourceFiles="@(GEXliffFiles)" OutputXml="$(OutputXml)"/>
 	</Target>
 
@@ -144,6 +146,8 @@
 		<ItemGroup>
 			<LocaleDirs Include="$([System.IO.Directory]::GetDirectories(&quot;$(L10nsDirectory)&quot;))"/>
 		</ItemGroup>
+		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
+			Command="echo Diagnostic begin display tree - before some of zipLocalizedLists; find fw -not '(' -path '*/.git' -prune ')' -type f -name '*.fr.resources' -print0 | xargs -0 md5sum; echo Diagnostic end display tree - after some of zipLocalizedLists" />
 		<MSBuild Projects="$(MSBuildProjectFullPath)" Targets="combineAndZipListsForOneLocale"
 			Properties="LocaleDir=%(LocaleDirs.Identity);Locale=%(Filename)"/>
 	</Target>
@@ -188,6 +192,10 @@
 
 		<!-- Process source for liblcm -->
 		<Message Text="LcmRootDir = $(LcmRootDir)" />
+
+		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
+			Command="echo Diagnostic begin display tree - before LocalizeFieldWorks; find fw -not '(' -path '*/.git' -prune ')' -type f -name '*.fr.resources' -print0 | xargs -0 md5sum; echo Diagnostic end display tree - before LocalizeFieldWorks" />
+
 		<!-- Passing RootDir as SrcFolder because LCM stores common assembly info in its root dir. -->
 		<LocalizeFieldWorks
 			RootDirectory="$(LcmRootDir)"
@@ -196,6 +204,10 @@
 			Config="$(config-capital)"
 			OutputFolder="$(fwrt)/Output"
 			Build="SourceOnly"/>
+
+		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
+			Command="echo Diagnostic begin display tree - between  LocalizeFieldWorks; find fw -not '(' -path '*/.git' -prune ')' -type f -name '*.fr.resources' -print0 | xargs -0 md5sum; echo Diagnostic end display tree - between  LocalizeFieldWorks" />
+
 		<!-- Process source for fieldworks -->
 		<LocalizeFieldWorks
 			RootDirectory="$(fwrt)"
@@ -205,6 +217,9 @@
 			OutputFolder="$(fwrt)/Output"
 			CopyStringsXml="true"
 			Build="SourceOnly"/>
+
+		<Exec Condition="'$(FW_PACKAGE_DEBUG)'=='true'" WorkingDirectory="$(fwrt)/.."
+			Command="echo Diagnostic begin display tree - after LocalizeFieldWorks; find fw -not '(' -path '*/.git' -prune ')' -type f -name '*.fr.resources' -print0 | xargs -0 md5sum; echo Diagnostic end display tree - after LocalizeFieldWorks" />
 	</Target>
 
 	<Target Name="diagnostic-display-tree">

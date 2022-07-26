@@ -30,7 +30,7 @@
 import os
 import sys
 
-if len(sys.argv) != 2 or "--help" == sys.argv[1]:
+if len(sys.argv) != 2 or sys.argv[1] == "--help":
 	print("Usage:", sys.argv[0], "relative_path")
 	sys.exit(1)
 

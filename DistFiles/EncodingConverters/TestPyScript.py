@@ -3,14 +3,14 @@ import unicodedata
 # Legacy to Legacy
 def ToUpper(s):
 	if not isinstance(s, str):
-		raise ValueError('Input Data is not a Legacy string! (%s)' % s)
+		raise ValueError(f'Input Data is not a Legacy string! ({s})')
 	else:
 		return str.upper(s)
 
 # Legacy to Legacy
 def ToLower(s):
 	if not isinstance(s, str):
-		raise ValueError('Input Data is not a Legacy string! (%s)' % s)
+		raise ValueError(f'Input Data is not a Legacy string! ({s})')
 	else:
 		return str.lower(s)
 
@@ -21,69 +21,59 @@ def Convert(s):
 # Unicode to Unicode
 def NFC(u):
 	if not isinstance(u, unicode):
-		raise UnicodeError(u'Input Data is not a Unicode string! (%s)' % u)
+		raise UnicodeError(f'Input Data is not a Unicode string! ({u})')
 	else:
 		return unicodedata.normalize('NFC',u)
 
 # Unicode to Unicode
 def NFD(u):
 	if not isinstance(u, unicode):
-		raise UnicodeError(u'Input Data is not a Unicode string! (%s)' % u)
+		raise UnicodeError(f'Input Data is not a Unicode string! ({u})')
 	else:
 		return unicodedata.normalize('NFD',u)
 
 # Unicode to Legacy
 def ToHex(u):
 	if not isinstance(u, unicode):
-		raise UnicodeError(u'Input Data is not a Unicode string! (%s)' % u)
+		raise UnicodeError(f'Input Data is not a Unicode string! ({u})')
 	else:
-		r = ''
-		for ch in u:
-			r += 'u%04x ' % ord(ch)
-		return r
+		return ''.join('u%04x ' % ord(ch) for ch in u)
 
 # Unicode to Legacy
 def UnicodeName(u):
 	if not isinstance(u, unicode):
-		raise UnicodeError(u'Input Data is not a Unicode string! (%s)' % u)
+		raise UnicodeError(f'Input Data is not a Unicode string! ({u})')
 	else:
-		r = u''
-		for ch in u:
-			r += '%s; ' % unicodedata.name(ch)
-		return r
+		return u''.join(f'{unicodedata.name(ch)}; ' for ch in u)
 
 # Unicode to Unicode (w/ addl fixed parameter being passed)
 # notice that the data to be converted is always last
 def OneAddlParam(sLang, u):
 	if not isinstance(u, unicode):
-		raise UnicodeError(u'Input Data is not a Unicode string! (%s)' % u)
-	else:
-		if sLang == u'Italian':
-			u += u'o'
-		return u
+		raise UnicodeError(f'Input Data is not a Unicode string! ({u})')
+	if sLang == u'Italian':
+		u += u'o'
+	return u
 
 # Unicode to Unicode (w/ 2 addl fixed parameter being passed)
 # notice that the data to be converted is always last
 def TwoAddlParams(sLang, sOther, u):
 	if not isinstance(u, unicode):
-		raise UnicodeError(u'Input Data is not a Unicode string! (%s)' % u)
-	else:
-		if sLang == u'Italian':
-			if sOther == u'schmaboogle':
-				u += u'o'
-		return u
+		raise UnicodeError(f'Input Data is not a Unicode string! ({u})')
+	if sLang == u'Italian' and sOther == u'schmaboogle':
+		u += u'o'
+	return u
 
 def ProcessChinese(uI):
 	return uI
 
 def ChangeLanguage(sLang, uI):
 	if not isinstance(uI, unicode):
-		raise UnicodeError(u'Input Data is not a Unicode string! (%s)' % uI)
-	else:
-		if sLang == u'Chinese':
-			# do some Chinese processing result in uO
-			uO = ProcessChinese(uI)
-		return uO
+		raise UnicodeError(f'Input Data is not a Unicode string! ({uI})')
+	if sLang == u'Chinese':
+		# do some Chinese processing result in uO
+		uO = ProcessChinese(uI)
+	return uO
 
 import pyclbr
 
